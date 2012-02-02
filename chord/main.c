@@ -44,7 +44,7 @@ int main(void)
 {
     srand(time(0));
 
-#if 0
+#if 1
     t_cnode *root = 0;
     t_cnode start, follower, another;
 
@@ -53,9 +53,10 @@ int main(void)
     kz_cnode_init(&start);
     kz_cnode_init(&follower);
     kz_cnode_init(&another);
-
-   // kz_join(&follower, root);
-   // root->next = &another; /* FIXME: should not have to 'manually' do this... */
+	root = &start;
+    kz_join(&follower,&start);
+	kz_join(&start,&another);
+ //   root->next = &another; /* FIXME: should not have to 'manually' do this... */
 
     DBG_CNODE_PRINT(root, "root");
     DBG_CNODE_PRINT(&follower, "follower");
@@ -76,7 +77,7 @@ int main(void)
     value = kz_lookup(root, key);
     printf("value: %d\n", value);
 #endif
-    
+   // getchar();
     return 0;
 }
 

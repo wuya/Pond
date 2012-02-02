@@ -17,8 +17,8 @@ t_htab
     int i = 0;
     t_htab *h_tbl = 0;
     assert(sz > 1);
-    h_tbl = malloc(sizeof(t_htab));
-    h_tbl->table = malloc(sz * sizeof(t_htab_node*));
+    h_tbl = (t_htab *)malloc(sizeof(t_htab));
+    h_tbl->table = (t_htab_node **)malloc(sz * sizeof(t_htab_node*));
     for (i = 0; i < sz; ++i) {
         h_tbl->table[i] = 0; 
     }
@@ -101,7 +101,7 @@ htab_insert(t_htab *h_tbl, const void *key, size_t k_sz,
         nt = nt->next;
     }
     
-    nt       = malloc(sizeof(*nt));
+    nt       = (t_htab_node *)malloc(sizeof(*nt));
     nt->key  = malloc(k_sz);
     nt->data = malloc(d_sz);
     memcpy(nt->key, key, k_sz);

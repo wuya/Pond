@@ -46,7 +46,7 @@ t_cnode *kz_create_ring(t_cnode *start) /* probably a good idea to write
     rt->prev = 0;
     rt->next = start;
 */
-    start->prev = 0;
+    start->prev = start;
     start->next = start;
 
     return start;
@@ -57,8 +57,11 @@ void kz_join(t_cnode *start, t_cnode *new_nd)
     assert(start != 0);    
     assert(new_nd != 0);
     
-    new_nd->prev = 0;
+//    new_nd->prev = 0;
     new_nd->next = kz_find_next(start, new_nd->id);
+	new_nd->prev = new_nd->next->prev;
+	new_nd->next->prev = new_nd;
+	new_nd->prev->next = new_nd;
 }
 
 void kz_store(t_cnode *start, t_ident key, t_data value)
@@ -115,9 +118,9 @@ t_cnode *kz_find_next(t_cnode *start, t_ident new_id)
     cur = start;
 
     while (distance(cur->id, new_id) > distance(cur->next->id, new_id)) {
-        DBG_CNODE_PRINT(cur, "cur");
+ //       DBG_CNODE_PRINT(cur, "cur");
         cur = cur->next;
-        DBG_CNODE_PRINT(cur, "cur->next");
+ //      DBG_CNODE_PRINT(cur, "cur->next");
     }
     return cur;
 }
@@ -129,5 +132,6 @@ void kz_cnode_init(t_cnode *cn)
     cn->prev = 0;
     cn->next = 0;
     cn->id   = kz_mkid();
+	kz_create_ring(cn);
 }
 
